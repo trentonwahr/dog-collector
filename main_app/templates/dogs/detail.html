@@ -2,7 +2,16 @@
 {% load static %}
 
 {% block head %}
-
+<link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<script defer src="{% static 'js/dog-detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,5 +31,43 @@
     </div>
   </div>
 </section>
+<div class="naps-treats-container">
+  <section class="naps">
+    <div class="subsection-title">
+      <h2>Naps</h2>
+    </div>
+    <h3>Add a Nap</h3>
+    <form 
+      action="{% url 'add-nap' dog.id %}"
+      method="post" 
+      class="subsection-content"
+      autocomplete="off"
+    >
+      {% csrf_token %}
+      {{ nap_form.as_p }}
+      <button type="submit">Add Nap</button>
+    </form>
+    <h3>Past Naps</h3>
+    {% if dog.nap_set.all.count %}
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Time</th></tr>
+        </thead>
+        <tbody>
+          {% for nap in dog.nap_set.all %}
+            <tr>
+              <td>{{nap.date}}</td>
+              <td>{{nap.get_time_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div>
+        <p>{{dog.name}} has never had a nap 😔</p>
+      </div>
+    {% endif %}
+  </section>
+</div>
 
 {% endblock %}

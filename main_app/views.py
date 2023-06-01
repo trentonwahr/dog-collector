@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Dog
+from .forms import NapForm
 
 def home(request):
   return render(request, 'home.html')
@@ -20,7 +21,8 @@ def dog_index(request):
 
 def dog_detail(request, dog_id):
   dog = Dog.objects.get(id=dog_id)
-  return render(request, 'dogs/detail.html', { 'dog':dog })
+  nap_form = NapForm()
+  return render(request, 'dogs/detail.html', { 'dog': dog, 'nap_form': nap_form })
 
 class DogCreate(CreateView):
   model = Dog
@@ -33,3 +35,11 @@ class DogUpdate(UpdateView):
 class DogDelete(DeleteView):
   model = Dog
   success_url = '/dogs/'
+
+def add_nap(request, dog_id):
+  form = NapForm(request.POST)
+  if form.is_valid():
+    new_nap = form.save(commit=False)
+    new_nap.dog_id = dog_id
+    new_nap.save()
+  return redirect('dog-detail', dog_id=dog_id)
