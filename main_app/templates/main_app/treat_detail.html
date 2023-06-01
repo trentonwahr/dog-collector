@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+  
+<div class="card">
+  <div class="card-bg"></div>
+  <div class="card-content">
+    <h2>{{ treat.name }}</h2>
+    <p>A {{ treat.size }} treat</p>
+  </div>
+</div>
+<a href="{% url 'treat-update' treat.id %}">Edit</a>
+<a href="{% url 'treat-delete' treat.id %}">Delete</a>
+
+{% endblock %}

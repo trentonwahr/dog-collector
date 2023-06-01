@@ -9,17 +9,31 @@ TIMES = (
   ('N', 'Night')
 )
 
+class Treat(models.Model):
+  name = models.CharField(max_length=50)
+  size = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+  
+  def get_absolute_url(self):
+    return reverse("treat-detail", kwargs={"pk": self.id})
+
 class Dog(models.Model):
   name = models.CharField(max_length=100)
   breed = models.CharField(max_length=100)
   description = models.TextField(max_length=250)
   age = models.IntegerField()
+  treats = models.ManyToManyField(Treat)
 
   def __str__(self):
     return self.name
   
   def get_absolute_url(self):
     return reverse("dog-detail", kwargs={"dog_id": self.id})
+  
+  def napped_for_today(self):
+    return self.nap_set.filter(date=date.today()).count() >= len(TIMES)
   
 class Nap(models.Model):
   date = models.DateField('Nap date')

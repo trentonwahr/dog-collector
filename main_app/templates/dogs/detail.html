@@ -43,6 +43,11 @@
       class="subsection-content"
       autocomplete="off"
     >
+      {% if dog.napped_for_today %}
+        <p>{{dog.name}} has napped all their naps today!</p>
+      {% else %}
+        <p>{{dog.name}} might be sleepy 😴</p>
+      {% endif %}
       {% csrf_token %}
       {{ nap_form.as_p }}
       <button type="submit">Add Nap</button>
@@ -67,6 +72,47 @@
         <p>{{dog.name}} has never had a nap 😔</p>
       </div>
     {% endif %}
+  </section>
+  </section> 
+	{% comment %} Add this section below the CLOSING tag (</section>) for <section class="feedings"> {% endcomment %}
+  <section class="treats">
+    <div class="subsection-title">
+      <h2>Treats</h2>
+    </div>
+    <h3>{{ dog.name }}'s Treats</h3>
+    <div class="subsection-content">
+      {% if dog.treats.count %}
+        {% for treat in dog.treats.all %}
+          <div class="treat-container">
+            <a href="{% url 'treat-detail' treat.id %}">
+              <p>A {{ treat.size }} {{ treat.name }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-treats">{{dog.name}} doesn't have any treats 😞</p>
+      {% endif %}
+    </div>
+    <h3>Available Treats</h3>
+    <div class="subsection-content">
+      {% if treats.count %}
+        {% for treat in treats.all %}
+          <div class="treat-container">
+            <a href="{% url 'treat-detail' treat.id %}">
+              <p>A {{ treat.size }} {{ treat.name }}</p>
+            </a>
+            <form action="{% url 'assoc-treat' dog.id treat.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give treat</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>
+          {{dog.name}} already has all the available treats 🥳
+        </p>
+      {% endif %}
+    </div>
   </section>
 </div>
 
