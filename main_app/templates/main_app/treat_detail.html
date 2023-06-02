@@ -2,7 +2,11 @@
 {% load static %} 
 
 {% block head %}
-
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/treats/treat-detail.css' %}"
+/>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +18,7 @@
     <p>A {{ treat.size }} treat</p>
   </div>
 </div>
-<a href="{% url 'treat-update' treat.id %}">Edit</a>
-<a href="{% url 'treat-delete' treat.id %}">Delete</a>
+<a href="{% url 'treat-update' treat.id %}" class="btn warn">Edit</a>
+<a href="{% url 'treat-delete' treat.id %}" class="btn danger">Delete</a>
 
 {% endblock %}
