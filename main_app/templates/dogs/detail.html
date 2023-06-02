@@ -30,7 +30,7 @@
       <h2>A {{ dog.breed }} puppy.</h2>
     {% endif %}
     <p>{{ dog.description }}</p>
-    <div>
+    <div class="dog-actions">
       <a href="{% url 'dog-update' dog.id %}" class="btn warn">Edit</a>
       <a href="{% url 'dog-delete' dog.id %}" class="btn danger">Delete</a>
     </div>
@@ -55,7 +55,7 @@
       {% endif %}
       {% csrf_token %}
       {{ nap_form.as_p }}
-      <button type="submit">Add Nap</button>
+      <button type="submit" class="btn submit">Add Nap</button>
     </form>
     <h3>Past Naps</h3>
     {% if dog.nap_set.all.count %}
