@@ -25,6 +25,7 @@ class Dog(models.Model):
   description = models.TextField(max_length=250)
   age = models.IntegerField()
   treats = models.ManyToManyField(Treat)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
 
   def __str__(self):
     return self.name

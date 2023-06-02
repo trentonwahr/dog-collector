@@ -25,11 +25,18 @@
     </div>
     <nav>
       <ul>
+        {% if user.is_authenticated %}
         <li><a href="{% url 'dog-index' %}">All Dogs</a></li>
         <li><a href="{% url 'treat-index' %}">All Treats</a></li>
         <li><a href="{% url 'dog-create' %}">Add a Dog</a></li>
         <li><a href="{% url 'treat-create' %}">Add a Treat</a></li>
         <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'home' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
